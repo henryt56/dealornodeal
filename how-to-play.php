@@ -6,28 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>How to Play - Deal or No Deal</title>
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        .instructions-container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background: rgba(224, 219, 219, 0.7);
-            border-radius: 10px;
-            animation: fadeIn 1s;
-        }
-        .instructions-list {
-            text-align: left;
-            margin: 2rem 0;
-            padding-left: 1.5rem;
-        }
-        .instructions-list li {
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-        .back-btn {
-            margin-top: 2rem;
-        }
-    </style>
 </head>
 <body>
     <div class="instructions-container">

@@ -77,3 +77,237 @@ h1, h2 {
         font-size: 2.5rem;
     }
 }
+
+/* Home Screen */
+.home-screen {
+    text-align: center;
+    animation: fadeIn 1s;
+}
+
+.game-title {
+    font-size: 4rem;
+    margin: 2rem 0;
+    text-shadow: 0 0 20px #f8c537;
+    animation: pulse 2s infinite;
+}
+
+.btn-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 300px;
+    margin: 3rem auto;
+}
+
+/* How to play */
+.instructions-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(224, 219, 219, 0.7);
+    border-radius: 10px;
+    animation: fadeIn 1s;
+}
+
+.instructions-list {
+    text-align: left;
+    margin: 2rem 0;
+    padding-left: 1.5rem;
+}
+
+.instructions-list li {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.back-btn {
+    margin-top: 2rem;
+}
+
+/* Selection Styles */
+.selection-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.briefcase-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.briefcase {
+    background: url('assets/images/briefcase.jpg') center/contain no-repeat;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    transition: transform 0.3s;
+    position: relative;
+}
+
+.briefcase:hover {
+    transform: scale(1.1);
+}
+
+.briefcase::after {
+    content: attr(data-number);
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* Play Styles */
+.game-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.case {
+    background: url('assets/images/briefcase.jpg') center/contain no-repeat;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    transition: all 0.5s;
+    position: relative;
+}
+
+.case:hover {
+    transform: scale(1.1);
+}
+
+.case.opened {
+    background: url('assets/images/openbriefcase.png') center/contain no-repeat;
+    transform: rotateY(180deg) scale(1.1);
+    cursor: default;
+}
+
+.case-number {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.round-info {
+    text-align: center;
+    margin: 1rem 0;
+    font-size: 1.2rem;
+}
+
+.cases-remaining {
+    color: #f8c537;
+    font-weight: bold;
+}
+
+/* Offer Styles */
+.offer-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    text-align: center;
+    background: rgba(0,0,0,0.7);
+    border-radius: 10px;
+    animation: slideIn 0.5s;
+}
+
+.offer-amount {
+    font-size: 3rem;
+    color: #f8c537;
+    margin: 1rem 0;
+    animation: pulse 1s infinite alternate;
+}
+
+.choice-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.deal-btn {
+    background: #4CAF50;
+}
+
+.no-deal-btn {
+    background: #f44336;
+}
+
+.bank-offer-container {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .briefcase-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+    
+    .case, .briefcase {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .game-title {
+        font-size: 3rem;
+    }
+    
+    .offer-amount {
+        font-size: 2.5rem;
+    }
+    
+    .choice-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .briefcase-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .game-title {
+        font-size: 2.5rem;
+    }
+    
+    .offer-container {
+        padding: 1rem;
+    }
+}

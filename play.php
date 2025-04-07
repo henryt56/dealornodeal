@@ -2,7 +2,7 @@
 session_start();
 
 // Include the game logic FIRST
-require_once 'includes/game-logic.php';
+require_once 'game-logic.php';
 
 // Initialize game if needed
 if (empty($_SESSION['cases'])) {
@@ -29,53 +29,6 @@ $cases_remaining = $max_cases - ($_SESSION['cases_opened_this_round'] ?? 0);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Round <?= $round ?> - Deal or No Deal</title>
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        .game-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 1rem;
-        }
-        .briefcase-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        .case {
-            background: url('assets/images/briefcase.jpg') center/contain no-repeat;
-            width: 120px;
-            height: 120px;
-            margin: 0 auto;
-            transition: all 0.5s;
-            position: relative;
-        }
-        .case:hover {
-            transform: scale(1.1);
-        }
-        .case.opened {
-            background: url('assets/images/openbriefcase.png') center/contain no-repeat;
-            transform: rotateY(180deg) scale(1.1);
-            cursor: default;
-        }
-        .case-number {
-            position: absolute;
-            bottom: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: white;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-        .round-info {
-            text-align: center;
-            margin: 1rem 0;
-            font-size: 1.2rem;
-        }
-        .cases-remaining {
-            color: #f8c537;
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body>
     <div class="game-container">

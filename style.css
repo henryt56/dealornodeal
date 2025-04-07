@@ -42,6 +42,44 @@ h1, h2 {
     animation: pulse 2s infinite;
 }
 
+/* Game Banner */
+.game-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid #f8c537;
+    width: 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.banner-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #f8c537;
+    text-shadow: 0 0 10px rgba(248, 197, 55, 0.5);
+    letter-spacing: 2px;
+}
+
+.home-button {
+    background: #f8c537;
+    color: #1a1a2e;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.home-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(248, 197, 55, 0.7);
+}
+
 /* Home Screen */
 .home-screen {
     text-align: center;
@@ -158,6 +196,7 @@ h1, h2 {
     padding: 1.5rem;
 }
 
+/* Case Styles */
 .case {
     background: url('images/briefcase.png') center/cover no-repeat;
     width: 120px;
@@ -179,10 +218,12 @@ h1, h2 {
     transform: rotateY(180deg);
     cursor: default;
 }
+
 .case.opened .case-value {
     transform: translate(-50%, -50%) rotateY(180deg);
     font-size: 1.2rem;
 }
+
 .case.opened .case-number {
     transform: translate(-50%, -50%) rotateY(180deg);
 }
@@ -217,6 +258,20 @@ h1, h2 {
     z-index: 2;
 }
 
+/* Game Status */
+.game-status {
+    text-align: center;
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+.game-status p {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
 .round-info {
     text-align: center;
     margin: 1.5rem 0;
@@ -231,18 +286,22 @@ h1, h2 {
     font-weight: bold;
 }
 
-/* Game Status */
-.game-status {
+.waiting-message {
+    background: rgba(244, 67, 54, 0.7);
+    color: white;
+    padding: 12px;
+    border-radius: 5px;
+    margin: 1rem 0;
     text-align: center;
-    margin: 1.5rem 0;
-    padding: 1.5rem;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
+    font-weight: bold;
+    animation: pulse 1.5s infinite alternate;
 }
 
-.game-status p {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
+.player-case-number {
+    font-weight: bold;
+    color: #f8c537;
+    font-size: 1.2em;
+    text-shadow: 0 0 10px rgba(248, 197, 55, 0.7);
 }
 
 /* Prize Board */
@@ -323,10 +382,19 @@ h1, h2 {
 
 .deal-btn {
     background: #4CAF50;
+    font-size: 1.2rem;
+    padding: 15px 30px;
 }
 
 .no-deal-btn {
     background: #f44336;
+    font-size: 1.2rem;
+    padding: 15px 30px;
+}
+
+.deal-btn:hover, .no-deal-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
 }
 
 .bank-offer-container {
@@ -335,6 +403,59 @@ h1, h2 {
     padding: 1rem;
     background: rgba(0, 0, 0, 0.3);
     border-radius: 5px;
+}
+
+/* Offer Overlay */
+.offer-overlay {
+    position: relative;
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 10px;
+    padding: 2rem;
+    margin: 1rem 0;
+    border: 2px solid #f8c537;
+    box-shadow: 0 0 20px rgba(248, 197, 55, 0.5);
+    animation: fadeIn 0.5s, pulse 2s infinite alternate;
+    text-align: center;
+}
+
+.offer-content {
+    position: relative;
+    z-index: 10;
+}
+
+.offer-overlay h2 {
+    color: #fff;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(248, 197, 55, 0.7);
+}
+
+.offer-overlay .offer-amount {
+    font-size: 3.5rem;
+    color: #f8c537;
+    margin: 1.5rem 0;
+    text-shadow: 0 0 15px rgba(248, 197, 55, 0.8);
+}
+
+/* Offer Page Layout */
+.offer-page .game-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.offer-page .money-board {
+    flex: 1;
+    min-width: 250px;
+}
+
+.offer-page .game-area {
+    flex: 2;
+    min-width: 300px;
 }
 
 /* Authentication Form Styles */
@@ -556,6 +677,28 @@ h1, h2 {
         margin-right: 0;
         margin-bottom: 20px;
     }
+    
+    .banner-title {
+        font-size: 1.4rem;
+    }
+    
+    .home-button {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .offer-overlay h2 {
+        font-size: 1.5rem;
+    }
+    
+    .offer-overlay .offer-amount {
+        font-size: 2.5rem;
+    }
+    
+    .deal-btn, .no-deal-btn {
+        width: 100%;
+        max-width: 200px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -576,5 +719,35 @@ h1, h2 {
     .leaderboard-table td {
         padding: 8px;
         font-size: 0.9rem;
+    }
+    
+    .banner-title {
+        font-size: 1.2rem;
+    }
+    
+    .game-banner {
+        padding: 8px 12px;
+    }
+    
+    .home-button {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .offer-overlay {
+        padding: 1rem;
+    }
+    
+    .offer-overlay h2 {
+        font-size: 1.2rem;
+    }
+    
+    .offer-overlay .offer-amount {
+        font-size: 2rem;
+    }
+    
+    .deal-btn, .no-deal-btn {
+        font-size: 1rem;
+        padding: 10px 20px;
     }
 }

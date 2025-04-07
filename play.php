@@ -27,9 +27,19 @@ if (isset($_POST['selected_case'])) {
     selectPlayerCase($selectedCase);
 }
 
-// Process game actions
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['open_case'])) {
+// Process a "No Deal" decision
+if (isset($_POST['decision']) && $_POST['decision'] === 'no_deal') {
+    // Clear the waiting flag
+    $_SESSION['waiting_for_decision'] = false;
+    
+    // Advance to the next round
+    advanceToNextRound();
+}
+
+// Process game actions (opening a case)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['open_case'])) {
+    // Only process if we're not waiting for a decision
+    if (empty($_SESSION['waiting_for_decision'])) {
         $openedCaseNumber = (int)$_POST['open_case'];
         $openedValue = openCase($openedCaseNumber);
     }
@@ -38,26 +48,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Check if the game is over (only player's case is left)
 if (isGameOver()) {
     // Get the player's case value
-    $playerCaseNumber = $_SESSION['player_case'];
-    $playerCaseValue = $_SESSION['player_case_value'];
+    $playerCaseNumber = $_SESSION['player_case'] ?? 0;
+    $playerCaseValue = $_SESSION['player_case_value'] ?? 0;
     
     // Redirect to result page with the final amount
     header("Location: result.php?decision=no_deal&amount={$playerCaseValue}");
     exit;
 }
 
-// Process game actions
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['open_case'])) {
-        $openedCaseNumber = (int)$_POST['open_case'];
-        $openedValue = openCase($openedCaseNumber);
-    }
-}
-
 // Get current game state
 $round = $_SESSION['round'] ?? 0;
 $casesNeededThisRound = getCasesForCurrentRound();
 $casesRemainingThisRound = getRemainingCasesInRound();
+
+// Check if banker should make an offer
+if (shouldMakeOffer() && empty($_SESSION['waiting_for_decision'])) {
+    $offer = calculateOffer();
+    header("Location: offer.php?offer_amount={$offer}");
+    exit;
+}
+
+// Set a message if waiting for decision
+$waitingMessage = '';
+if (!empty($_SESSION['waiting_for_decision'])) {
+    $waitingMessage = 'You must make a decision on the banker\'s offer before continuing.';
+}
 ?>
 
 <!DOCTYPE html>
@@ -69,6 +84,12 @@ $casesRemainingThisRound = getRemainingCasesInRound();
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Top Banner -->
+    <div class="game-banner">
+        <div class="banner-title">DEAL OR NO DEAL</div>
+        <a href="index.php" class="home-button" onclick="return confirm('Are you sure you want to go home? This will reset your game.');">HOME</a>
+    </div>
+    
     <div class="game-container">
         <!-- Prize Board -->
         <div class="money-board">
@@ -107,6 +128,10 @@ $casesRemainingThisRound = getRemainingCasesInRound();
         <div class="game-area">
             <h1>Round <?= $round ?></h1>
             
+            <?php if (!empty($waitingMessage)): ?>
+                <div class="waiting-message"><?= $waitingMessage ?></div>
+            <?php endif; ?>
+            
             <div class="game-status">
                 <p>Cases remaining this round: <span class="cases-remaining"><?= $casesRemainingThisRound ?></span></p>
                 <p>Then the banker will make an offer</p>
@@ -116,7 +141,13 @@ $casesRemainingThisRound = getRemainingCasesInRound();
                 <?php foreach ($_SESSION['case_grid'] as $index => $case): 
                     $caseNum = $index + 1;
                     $status = $case['status'];
-                    $disabled = ($status === 'opened' || $status === 'player' || $casesRemainingThisRound <= 0) ? 'disabled' : '';
+                    $disabled = '';
+                    
+                    // Disable if case is opened, player's case, no cases left this round, or waiting for decision
+                    if ($status === 'opened' || $status === 'player' || $casesRemainingThisRound <= 0 || 
+                       !empty($_SESSION['waiting_for_decision'])) {
+                        $disabled = 'disabled';
+                    }
                 ?>
                     <form action="play.php" method="post">
                         <input type="hidden" name="open_case" value="<?= $caseNum ?>">
@@ -129,16 +160,6 @@ $casesRemainingThisRound = getRemainingCasesInRound();
                     </form>
                 <?php endforeach; ?>
             </div>
-
-            <?php if (shouldMakeOffer()): ?>
-                <div class="bank-offer-container">
-                    <form action="offer.php" method="post">
-                        <?php $offer = calculateOffer(); ?>
-                        <input type="hidden" name="offer_amount" value="<?= $offer ?>">
-                        <button type="submit" class="btn">BANK OFFER: $<?= number_format($offer) ?></button>
-                    </form>
-                </div>
-            <?php endif; ?>
         </div>
     </div>
 </body>

@@ -1,15 +1,16 @@
 <?php
+session_start();
 // Check authentication
 require_once 'auth_check.php';
 require_once 'game-logic.php';
 require_once 'users.php';
 
 // Get decision and amount
-$decision = $_POST['decision'] ?? '';
-$amount = $_POST['amount'] ?? 0;
+$decision = $_POST['decision'] ?? $_GET['decision'] ?? '';
+$amount = $_POST['amount'] ?? $_GET['amount'] ?? 0;
 
 // Get player's original case value (if they chose "no deal" all the way)
-$playerCaseIndex = $_SESSION['player_case'] ?? 0;
+$playerCaseIndex = ($_SESSION['player_case'] ?? 1) - 1;
 $playerCaseValue = $_SESSION['cases'][$playerCaseIndex] ?? 0;
 
 // Determine final amount won
@@ -42,6 +43,9 @@ if ($decision === 'deal') {
     $resultMessage = "You kept your original case until the end!";
     $additionalInfo = "Your case contained $" . number_format($playerCaseValue) . ".";
 }
+
+// Store the username before resetting session
+$username = $_SESSION['username'] ?? '';
 ?>
 
 <!DOCTYPE html>
@@ -53,6 +57,12 @@ if ($decision === 'deal') {
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Top Banner -->
+    <div class="game-banner">
+        <div class="banner-title">DEAL OR NO DEAL</div>
+        <a href="index.php" class="home-button">HOME</a>
+    </div>
+    
     <div class="offer-container">
         <h1><?= $resultTitle ?></h1>
         <p class="result-message"><?= $resultMessage ?></p>
@@ -96,5 +106,5 @@ $_SESSION = array();
 session_regenerate_id();
 // Keep the user logged in
 $_SESSION['logged_in'] = true;
-$_SESSION['username'] = $username ?? '';
+$_SESSION['username'] = $username;
 ?>

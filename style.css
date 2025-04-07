@@ -1,3 +1,4 @@
+/* Base Styles */
 body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(135deg, #1a1a2e, #16213e);
@@ -41,47 +42,11 @@ h1, h2 {
     animation: pulse 2s infinite;
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .briefcase-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    
-    h1 {
-        font-size: 2rem;
-    }
-    
-    .btn {
-        padding: 10px 20px;
-        font-size: 1rem;
-    }
-    
-    .case, .briefcase {
-        width: 100px;
-        height: 100px;
-    }
-}
-
-@media (max-width: 480px) {
-    .briefcase-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .game-title {
-        font-size: 2.5rem;
-    }
-}
-
 /* Home Screen */
 .home-screen {
     text-align: center;
     animation: fadeIn 1s;
+    padding: 2rem;
 }
 
 .game-title {
@@ -89,6 +54,12 @@ h1, h2 {
     margin: 2rem 0;
     text-shadow: 0 0 20px #f8c537;
     animation: pulse 2s infinite;
+}
+
+.welcome-message {
+    font-size: 1.5rem;
+    margin: 1rem 0;
+    color: #f8c537;
 }
 
 .btn-container {
@@ -127,8 +98,10 @@ h1, h2 {
 /* Selection Styles */
 .selection-container {
     max-width: 800px;
-    margin: 0 auto;
-    padding: 1rem;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
 }
 
 .briefcase-grid {
@@ -139,74 +112,183 @@ h1, h2 {
 }
 
 .briefcase {
-    background: url('assets/images/briefcase.jpg') center/contain no-repeat;
+    background: url('images/briefcase.png') center/cover no-repeat;
     width: 120px;
     height: 120px;
     margin: 0 auto;
     transition: transform 0.3s;
     position: relative;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
 }
 
 .briefcase:hover {
     transform: scale(1.1);
 }
 
-.briefcase::after {
-    content: attr(data-number);
+.briefcase-number {
     position: absolute;
-    bottom: -25px;
+    top: 40%;
     left: 50%;
-    transform: translateX(-50%);
-    color: white;
+    transform: translate(-50%, -50%);
+    color: #f8c537;
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1.8rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    z-index: 2;
 }
 
 /* Play Styles */
 .game-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.game-area {
+    flex: 2;
+    min-width: 300px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    padding: 1.5rem;
 }
 
 .case {
-    background: url('assets/images/briefcase.jpg') center/contain no-repeat;
+    background: url('images/briefcase.png') center/cover no-repeat;
     width: 120px;
     height: 120px;
     margin: 0 auto;
     transition: all 0.5s;
     position: relative;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
 }
 
-.case:hover {
+.case:hover:not(:disabled) {
     transform: scale(1.1);
 }
 
 .case.opened {
-    background: url('assets/images/openbriefcase.png') center/contain no-repeat;
-    transform: rotateY(180deg) scale(1.1);
+    background: url('images/openbriefcase.png') center/cover no-repeat;
+    transform: rotateY(180deg);
     cursor: default;
+}
+.case.opened .case-value {
+    transform: translate(-50%, -50%) rotateY(180deg);
+    font-size: 1.2rem;
+}
+.case.opened .case-number {
+    transform: translate(-50%, -50%) rotateY(180deg);
+}
+
+.case.player {
+    border: 3px solid #ff0000;
+    background-color: rgba(255, 0, 0, 0.1);
+    pointer-events: none;
+}
+
+.case .case-value {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #f8c537;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    z-index: 2;
 }
 
 .case-number {
     position: absolute;
-    bottom: -25px;
+    top: 40%;
     left: 50%;
-    transform: translateX(-50%);
-    color: white;
+    transform: translate(-50%, -50%);
+    color: #f8c537;
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1.8rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    z-index: 2;
 }
 
 .round-info {
     text-align: center;
-    margin: 1rem 0;
+    margin: 1.5rem 0;
     font-size: 1.2rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
 }
 
 .cases-remaining {
     color: #f8c537;
     font-weight: bold;
+}
+
+/* Game Status */
+.game-status {
+    text-align: center;
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+.game-status p {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Prize Board */
+.money-board {
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    width: 100%;
+    max-width: 250px;
+    margin-right: 20px;
+}
+
+.money-board h3 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(248, 197, 55, 0.7);
+    letter-spacing: 2px;
+}
+
+.money-value {
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.3);
+    transition: all 0.3s;
+    font-weight: bold;
+}
+
+.money-value.eliminated {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+.money-value.low {
+    color: white;
+}
+
+.money-value.medium {
+    color: #f8c537;
+}
+
+.money-value.high {
+    color: #ff4d4d;
 }
 
 /* Offer Styles */
@@ -215,7 +297,7 @@ h1, h2 {
     margin: 2rem auto;
     padding: 2rem;
     text-align: center;
-    background: rgba(0,0,0,0.7);
+    background: rgba(0, 0, 0, 0.7);
     border-radius: 10px;
     animation: slideIn 0.5s;
 }
@@ -223,8 +305,13 @@ h1, h2 {
 .offer-amount {
     font-size: 3rem;
     color: #f8c537;
-    margin: 1rem 0;
+    margin: 1.5rem 0;
     animation: pulse 1s infinite alternate;
+}
+
+.result-message {
+    font-size: 1.2rem;
+    margin: 1.5rem 0;
 }
 
 .choice-buttons {
@@ -245,6 +332,172 @@ h1, h2 {
 .bank-offer-container {
     text-align: center;
     margin: 2rem 0;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+/* Authentication Form Styles */
+.form-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    text-align: center;
+    animation: fadeIn 1s;
+}
+
+.auth-form {
+    text-align: left;
+    margin: 2rem 0;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #f8c537;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+}
+
+.form-links {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.form-links a {
+    color: #f8c537;
+    text-decoration: none;
+}
+
+.form-links a:hover {
+    text-decoration: underline;
+}
+
+.error-message {
+    background: rgba(244, 67, 54, 0.7);
+    color: white;
+    padding: 1rem;
+    border-radius: 5px;
+    margin: 1rem 0;
+}
+
+.success-message {
+    background: rgba(76, 175, 80, 0.7);
+    color: white;
+    padding: 1rem;
+    border-radius: 5px;
+    margin: 1rem 0;
+}
+
+/* Leaderboard Styles */
+.leaderboard-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    animation: fadeIn 1s;
+}
+        
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+}
+        
+.leaderboard-table th,
+.leaderboard-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+        
+.leaderboard-table th {
+    color: #f8c537;
+    text-transform: uppercase;
+}
+        
+.leaderboard-table tr:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+        
+.rank-1 {
+    background: rgba(255, 215, 0, 0.2);
+}
+        
+.rank-2 {
+    background: rgba(192, 192, 192, 0.2);
+}
+        
+.rank-3 {
+    background: rgba(205, 127, 50, 0.2);
+}
+
+/* Results Page Styles */
+.case-values-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+}
+
+.case-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.case-result {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 5px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.case-result:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.case-result .case-number {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    position: static;
+    transform: none;
+    margin-bottom: 0.5rem;
+}
+
+.case-result .case-value {
+    font-size: 1rem;
+    color: #f8c537;
+    font-weight: bold;
+}
+
+.selected-case {
+    background: rgba(248, 197, 55, 0.3);
+    border: 2px solid #f8c537;
+}
+
+.player-case {
+    background: rgba(76, 175, 80, 0.3);
+    border: 2px solid #4CAF50;
 }
 
 /* Animations */
@@ -266,7 +519,8 @@ h1, h2 {
 
 /* Responsiveness */
 @media (max-width: 768px) {
-    .briefcase-grid {
+    .briefcase-grid,
+    .case-grid {
         grid-template-columns: repeat(3, 1fr);
     }
     
@@ -296,10 +550,17 @@ h1, h2 {
         flex-direction: column;
         align-items: center;
     }
+    
+    .money-board {
+        max-width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
 }
 
 @media (max-width: 480px) {
-    .briefcase-grid {
+    .briefcase-grid,
+    .case-grid {
         grid-template-columns: repeat(2, 1fr);
     }
     
@@ -309,5 +570,11 @@ h1, h2 {
     
     .offer-container {
         padding: 1rem;
+    }
+    
+    .leaderboard-table th,
+    .leaderboard-table td {
+        padding: 8px;
+        font-size: 0.9rem;
     }
 }
